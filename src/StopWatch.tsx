@@ -1,20 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StopWatchButton from "./StopWatchButton";
 
 export default function StopWatch() {
     const [count, setCount] = useState(0);
     const [isActive, setIsActive] = useState(false);
-    const [laps, setLaps] = useState([]);
+    const [laps, setLaps] = useState<number[]>([]);
+    const [lapsIsActive, setLapsIsActive] = useState(false);
+
+    useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isActive) {
+        interval = setInterval(() => {
+            setCount((prev) => Number((prev + 0.1).toFixed(2)));
+        }, 100);
+    }
+
+    return () => clearInterval(interval);
+    }, [isActive]);
 
     return(
         <section className={"stopwatch"}>
-            {count}
+            {`${count} seconds`}
             <StopWatchButton
             count={count}
             setCount={setCount}
             isActive={isActive}
             setIsActive={setIsActive}
+            laps={laps}
+            setLaps={setLaps}
+            lapsIsActive={lapsIsActive}
+            setLapsIsActive={setLapsIsActive}
             />
+    {lapsIsActive ? laps.map((lap, index) => <article key={index}>Lap {index + 1}: {lap} seconds<br/></article>): ""}
         </section>
     )
 }
