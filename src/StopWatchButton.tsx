@@ -36,7 +36,9 @@ const newLapHandler = (
     setCount: React.Dispatch<React.SetStateAction<number>>,
     count: number
 ) => {
-    count !== 0 ? setLaps((prev) => [...prev, count]) : setLaps((prev) => [...prev]);
+    if (count !== 0) {
+      setLaps((prev) => [...prev, count])
+    }
     resetWatchHandler(setCount);
 };
 

@@ -6,13 +6,15 @@ export default function StopWatch() {
     const [isActive, setIsActive] = useState(false);
     const [laps, setLaps] = useState<number[]>([]);
     const [lapsIsActive, setLapsIsActive] = useState(false);
+    const INTERVAL_DURATION = 100; // in milliseconds
+    const INCREMENT_AMOUNT = 0.1; // in seconds
 
     useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isActive) {
         interval = setInterval(() => {
-            setCount((prev) => Number((prev + 0.1).toFixed(2)));
-        }, 100);
+            setCount((prev) => Number((prev + INCREMENT_AMOUNT).toFixed(2)));
+        }, INTERVAL_DURATION);
     }
 
     return () => clearInterval(interval);
